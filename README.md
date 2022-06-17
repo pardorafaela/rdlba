@@ -14,5 +14,14 @@
 
 ## 💻 Pré-requisitos
 
+ 1. Um servidor web HTTP;
+ 2. PHP 7.4.3;
+ 3. Driver php_pdo;
+ 4. Drivers do banco de dados (PostgreSQL ou MySQL).
 
+
+
+## 💻 Instalação 
+
+Para a instalação do RDLBA é necessário ter os pré-requisitos configurados e clonar o projeto dentro do diretório do servidor web.
 

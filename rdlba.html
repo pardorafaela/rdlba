@@ -1,0 +1,364 @@
+<html>
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <template>
+                <v-card>
+                    <v-toolbar flat color="primary" dark>
+                        <v-img lazy-src="images/icon.ico" max-height="100" max-width="100" src="images/icon.ico">
+                        </v-img>
+                        <v-toolbar-title>
+                            Relational Database LadyBug Analyzer
+                        </v-toolbar-title>
+                    </v-toolbar>
+                    <v-tabs vertical>
+                        <v-tab left>
+                            <v-icon left>
+                                mdi-information-variant
+                            </v-icon>
+                            Sobre
+                        </v-tab>
+                        <v-tab>
+                            <v-icon left>
+                                mdi-database-search
+                            </v-icon>
+                            Analisador
+                        </v-tab>
+                        <v-tab left>
+                            <v-icon left>
+                                mdi-toy-brick-plus
+                            </v-icon>
+                            Adicionar Problema
+                        </v-tab>
+                        <v-tab-item>
+                            <v-card flat>
+                                <v-card-title> </v-card-title>
+                                <v-card-text>
+                                    <v-col cols="12">
+                                        <v-col cols="12">
+                                            <v-col cols="6">
+                                                <h3>
+                                                    O <strong>Relational Database LadyBug Analyzer</strong> (RDLBA), é
+                                                    um
+                                                    software de auxílio aos desenvolvedores e DBAs para a detecção de
+                                                    anomalias em
+                                                    banco de dados
+                                                    relacionais (MySQL e PostgreSQL). Dentre as anomalias existentes
+                                                    para banco de dados
+                                                    relacionais, a ferramenta detecta:
+                                                </h3>
+                                            </v-col>
+                                        </v-col>
+                                        <br>
+                                        <v-list subheader three-line>
+                                            <!-- <v-subheader>Problemas Suportados</v-subheader> -->
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Problema 1</v-list-item-title>
+                                                    <v-list-item-subtitle>Nomes sequenciais nas colunas.
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Problema 2</v-list-item-title>
+                                                    <v-list-item-subtitle>Duplicidade por semelhança nos dados, quando
+                                                        não existe chave primária ou a chave primária é apenas a chave
+                                                        substituta.
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Problema 3</v-list-item-title>
+                                                    <v-list-item-subtitle> Chaves estrangeiras não informadas, causando
+                                                        problemas de integridade referencial.</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Problema 4</v-list-item-title>
+                                                    <v-list-item-subtitle>A chave estrangeira parcial.
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Problema 5</v-list-item-title>
+                                                    <v-list-item-subtitle>Chaves estrangeiras com tipos diferentes das
+                                                        chaves primárias. </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                        </v-list>
+
+                                    </v-col>
+
+                                </v-card-text>
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item>
+                            <v-card flat>
+                                <v-card-title> </v-card-title>
+                                <v-stepper v-model="e6" vertical>
+                                    <v-stepper-step :complete="e6 > 1" step="1">
+                                        Configuração da Conexão
+                                    </v-stepper-step>
+                                    <v-stepper-content step="1">
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <v-select v-model="sgbd" :items="sgbds" item-text="name"
+                                                    item-value="alias" :rules="[v => !!v || 'SGBD é obrigatório']"
+                                                    label="SGBD" required></v-select>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field v-model="user" label="USER" required>
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field v-model="host" label="HOST" required>
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field v-model="password" label="PASSWORD" type="password"
+                                                    required>
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field v-model="port" label="PORT" required>
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field v-model="database" label="DATABASE" required>
+                                                </v-text-field>
+                                            </v-col>
+
+                                        </v-row>
+                                        <v-btn color="primary" @click="conectar()">
+                                            Conectar
+                                        </v-btn>
+                                    </v-stepper-content>
+
+                                    <v-stepper-step :complete="e6 > 2" step="2">
+                                        Informe o schema e os problemas
+                                    </v-stepper-step>
+
+                                    <v-stepper-content step="2">
+                                        <v-row>
+                                            <v-col cols="12" md="12">
+                                                <v-col cols="12" md="6">
+                                                    <v-select v-model="schema" :items="schemas"
+                                                        :rules="[v => !!v || 'SCHEMA é obrigatório']" label="SCHEMA"
+                                                        required>
+                                                    </v-select>
+                                                </v-col>
+                                            </v-col>
+                                            <v-col cols="6" md="6">
+                                                <template>
+                                                    <v-data-table v-model="problemasSel" :headers="headersProblema"
+                                                        :items="problemas" :single-select="singleSelect"
+                                                        hide-default-footer item-key="descricao" show-select
+                                                        class="elevation-1">
+                                                        <template v-slot:top>
+                                                            <v-toolbar flat>
+                                                                <v-toolbar-title>Problemas</v-toolbar-title>
+                                                                <v-spacer></v-spacer>
+                                                            </v-toolbar>
+                                                        </template>
+                                                    </v-data-table>
+                                                </template>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-btn color="primary" @click="setSchema()">
+                                                    Próximo
+                                                </v-btn>
+                                                <v-btn color="primary" @click="e6 = e6 - 1">
+                                                    Voltar
+                                                </v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-stepper-content>
+                                    <v-stepper-step :complete="e6 > 3" step="3">
+                                        Chaves estrangeiras não declaradas
+                                    </v-stepper-step>
+                                    <v-stepper-content step="3">
+                                        <v-row>
+                                            <v-col cols="12" md="5">
+                                                <v-select @change="changeTableSource()" v-model="tableAtualSource"
+                                                    :items="dbinfo" item-text="name" item-value="name"
+                                                    label="Tabela Referenciadora">
+                                                </v-select>
+
+                                                <v-select v-model="fieldAtualSource" :items="fieldsAtualSource"
+                                                    item-text="name" item-value="name" label="Campo">
+                                                </v-select>
+                                                <v-textarea outlined label="Campos selecionados" v-model="fieldsSource"
+                                                    disabled>
+                                                </v-textarea>
+                                            </v-col>
+                                            <v-col cols="12" md="1" style="margin-top:80px;">
+                                                <v-btn v-if="!fieldsSource.includes(fieldAtualSource)"
+                                                    @click="addItem(fieldAtualSource,'source')" icon color="green">
+                                                    <v-icon>mdi-plus-circle-outline</v-icon>
+                                                </v-btn>
+                                                <v-btn v-else icon @click="deleteItem(fieldAtualSource,'source')"
+                                                    color="red">
+                                                    <v-icon>mdi-close-circle-outline</v-icon>
+                                                </v-btn>
+                                            </v-col>
+                                            <v-divider></v-divider>
+                                            <v-col cols="12" md="5">
+                                                <v-select @change="changeTableTarget()" v-model="tableAtualTarget"
+                                                    :items="dbinfo" item-text="name" item-value="name"
+                                                    label="Tabela Referenciada">
+                                                </v-select>
+
+                                                <v-select v-model="fieldAtualTarget" :items="fieldsAtualTarget"
+                                                    item-text="name" item-value="name" label="Campo">
+                                                </v-select>
+                                                <v-textarea outlined label="Campos selecionados" v-model="fieldsTarget"
+                                                    disabled>
+                                                </v-textarea>
+                                            </v-col>
+                                            <v-col cols="12" md="1" style="margin-top:80px;">
+                                                <v-btn v-if="!fieldsTarget.includes(fieldAtualTarget)"
+                                                    @click="addItem(fieldAtualTarget,'target')" icon color="green">
+                                                    <v-icon>mdi-plus-circle-outline</v-icon>
+                                                </v-btn>
+                                                <v-btn v-else icon @click="deleteItem(fieldAtualTarget,'target')"
+                                                    color="red">
+                                                    <v-icon>mdi-close-circle-outline</v-icon>
+                                                </v-btn>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row justify="center">
+                                            <v-btn class="ma-2" outlined color="indigo" @click="addFK()">
+                                                Adicionar
+                                            </v-btn>
+                                            <v-col cols="12" md="12">
+                                                <template>
+                                                    <v-data-table :headers="headers" :items="desserts"
+                                                        class="elevation-1">
+                                                        <template v-slot:item.excluir="{ item }">
+                                                            <v-icon small color="red" @click="deleteFK(item)">
+                                                                mdi-delete
+                                                            </v-icon>
+                                                        </template>
+                                                    </v-data-table>
+                                                </template>
+                                            </v-col>
+                                        </v-row>
+                                        <v-btn color="primary" @click="setForeign()">
+                                            Próximo
+                                        </v-btn>
+                                        <v-btn color="primary" @click="e6 = e6 - 1">
+                                            Voltar
+                                        </v-btn>
+                                    </v-stepper-content>
+
+                                    <v-stepper-step step="4">
+                                        Relatório
+                                    </v-stepper-step>
+                                    <v-stepper-content step="4">
+                                        <v-card class="mb-12">
+                                            <template>
+                                                <v-data-table :headers="headersRelatorio" :items="relatorio"
+                                                    :expanded.sync="expanded" item-key="description" show-expand
+                                                    class="elevation-1">
+                                                    <template v-slot:top>
+                                                        <v-toolbar flat>
+                                                            <v-toolbar-title>Relatorio</v-toolbar-title>
+                                                            <v-spacer></v-spacer>
+                                                        </v-toolbar>
+                                                    </template>
+                                                    <template v-slot:expanded-item="{ item }">
+                                                        <td :colspan="headers.length">
+                                                            <v-item v-for="(n,index) in item.describe" :key="n">
+                                                                <div style="padding:2px">
+                                                                    {{n}}
+                                                                    <v-divider></v-divider>
+                                                                </div>
+                                                            </v-item>
+                                                        </td>
+                                                    </template>
+                                                </v-data-table>
+                                            </template>
+                                        </v-card>
+                                        <v-btn color="primary" @click="e6 = e6 - 1">
+                                            Voltar
+                                        </v-btn>
+                                        <v-btn text @click="baixaPDF()">
+                                            Baixar Relatório
+                                        </v-btn>
+                                    </v-stepper-content>
+                                </v-stepper>
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item>
+                            <v-card flat>
+                                <v-card-title> </v-card-title>
+                                <v-card-text>
+                                    <v-col cols="6">
+                                        <h3>
+                                            Para adicionar um problema novo, você deve criar uma classe em php, conforme
+                                            o modelo e implementar conforme a sua necessidade. </br>Você pode baixar o
+                                            modelo
+                                            da classe <a href="modelo.txt" download>
+                                                aqui</a>.
+                                        </h3>
+                                        <v-divder></v-divder>
+                                        <h4>
+                                            *** É obrigatório estender a classe Problema.php, o nome da classe deve
+                                            seguir este padrão: "ProblemaNUMERO_DO_PROBLEMA" e deve respeitar o modelo
+                                            disponível
+                                            para baixar. ***
+                                        </h4>
+                                    </v-col>
+                                </v-card-text>
+                                <v-row>
+                                    <v-col cols="6" md="4">
+                                        <v-file-input v-model="file" accept=".php" label="Arquivo"
+                                            prepend-icon="mdi-paperclip">
+                                        </v-file-input>
+                                    </v-col>
+                                    <v-col cols="6" md="4">
+                                        <v-btn :loading="loading3" :disabled="loading3" color="primary"
+                                            class="ma-2 white--text" @click="sendFile">
+                                            Adicionar
+                                            <v-icon right dark>
+                                                mdi-cloud-upload
+                                            </v-icon>
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-tab-item>
+                    </v-tabs>
+                </v-card>
+            </template>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="rdlba.css">
+    <script src="rdlba.js?v2"></script>
+</body>
+
+</html>

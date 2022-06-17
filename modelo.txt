@@ -1,0 +1,22 @@
+<?php
+
+//descrição: PREENCHER A DESCRIÇÃO DO PROBLEMA.
+
+class ProblemaX extends Problema
+{
+
+    public $relatorio =  array(
+        "type" => "warning | error | info ",
+        "description" => "PREENCHER A DESCRIÇÃO DO PROBLEMA.",
+        "tables" => [],
+        "describe" => []
+    );
+
+
+    public function analisa()
+    {
+             //PREENCHER COM A IMPLEMENTAÇÃO
+    }
+}
+
+?>
